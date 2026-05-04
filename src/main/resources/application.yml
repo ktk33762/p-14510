@@ -6,7 +6,21 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
-    jpa:
-      show-sql: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
       hibernate:
-        ddl-auto: update
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+
+output:
+  ansi:
+    enabled: always
+
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.orm.jdbc.extract: TRACE

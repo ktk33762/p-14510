@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class inP14510Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(P14510Application.class, args);
+        SpringApplication.run(inP14510Application.class, args);
     }
 
 }
