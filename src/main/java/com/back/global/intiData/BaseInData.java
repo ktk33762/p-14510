@@ -2,26 +2,44 @@ package com.back.global.intiData;
 
 import com.back.domain.post.post.enetity.Post;
 import com.back.domain.post.post.service.PostService;
+import org.springframework.transaction.annotation.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.Optional;
 
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Configuration
 public class BaseInData {
     @Autowired
-    private PostService postService;
+    private final PostService postService;
+    private int callCount = 0;
+
+    @Autowired
+    @Lazy
+    private BaseInData self;
 
     @Bean
     ApplicationRunner baseInitDataApplicationRunner() {
         return args -> {
             work1();
             work2();
+
+            callCount++;
+
+            self.work1();
+            self.work2();
+            self.work3();
         };
     }
 
+    @Transactional
     void work1() {
         if (postService.count() > 0) return;
 
@@ -33,8 +51,28 @@ public class BaseInData {
         System.out.println("기본 데이터가 초기화 되었습니다.");
     }
 
+    @Transactional(readOnly = true)
     void work2() {
         Optional<Post> opPost = postService.findById(1);
         // SELECT * FROM post WHERE id = 1;
+        Post post = opPost.get();
+
+        System.out.println("post : " + post);
+    }
+
+    @Transactional
+    void work3() {
+
+        Optional<Post> opPost = postService.findById(1);
+        Post post = opPost.get();
+
+        postService.modify(post, "제목 1 수정", "내용 1 수정");
+
+        if (true) throw new RuntimeException("work3 에서 예외 발생");
+
+        Optional<Post> opPost2 = postService.findById(2);
+        Post post2 = opPost2.get();
+
+        postService.modify(post2, "제목 2 수정", "내용 2 수정");
     }
 }
