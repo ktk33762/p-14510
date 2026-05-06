@@ -1,14 +1,11 @@
 package com.back.domain.post.post.enetity;
 
+import com.back.global.baseEntity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 
 @EntityListeners(AuditingEntityListener.class) // Auditing 기능 활성화
@@ -16,17 +13,10 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @NoArgsConstructor// 아래 구조대로 DB 테이블(컬럼)을 만들어야 한다.
-public class Post {
-    @Id // PK
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT
-    private int id;
+public class Post extends BaseEntity {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String content;
-    @CreatedDate
-    private LocalDateTime createDate;
-    @LastModifiedDate
-    private LocalDateTime modifyDate;
 
     public Post(String title, String content) {
         this.title = title;

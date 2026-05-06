@@ -61,8 +61,6 @@ public class BaseInData {
 
         postService.modify(post, "제목 1 수정", "내용 1 수정");
 
-        if (true) throw new RuntimeException("work3 에서 예외 발생");
-
         Optional<Post> opPost2 = postService.findById(2);
         Post post2 = opPost2.get();
 
