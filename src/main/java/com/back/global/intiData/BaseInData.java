@@ -30,6 +30,7 @@ public class BaseInData {
             self.work1();
             self.work2();
             new Thread(() -> self.work3()).start();
+            self.work4();
         };
     }
 
@@ -37,12 +38,11 @@ public class BaseInData {
     void work1() {
         if (postService.count() > 0) return;
 
-        postService.save( new Post("제목 1", "내용 1"));
-        // INSERT INTO post SET title = '제목 1';
-        postService.save(new Post("제목 2", "내용 2"));
-        // INSERT INTO post SET title = '제목 2';
+        Post post1 = postService.write("제목 1", "내용 1");
+        Post post2 = postService.write("제목 2", "내용 2");
 
-        System.out.println("기본 데이터가 초기화 되었습니다.");
+        System.out.println("post1.getId() : " +  post1.getId());
+        System.out.println("post2.getId() : " +  post2.getId());
     }
 
     @Transactional(readOnly = true)
@@ -56,7 +56,6 @@ public class BaseInData {
 
     @Transactional
     void work3() {
-
         Optional<Post> opPost = postService.findById(1);
         Post post = opPost.get();
 
@@ -68,5 +67,14 @@ public class BaseInData {
         Post post2 = opPost2.get();
 
         postService.modify(post2, "제목 2 수정", "내용 2 수정");
+
+    }
+
+    @Transactional
+    void work4() {
+        Optional<Post> opPost1  = postService.findById(1);
+        Post post1 = opPost1.get();
+
+        postService.modify(post1, "제목 1 수정", "내용 1 수정");
     }
 }
