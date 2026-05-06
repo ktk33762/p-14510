@@ -2,18 +2,16 @@ package com.back.global.intiData;
 
 import com.back.domain.post.post.enetity.Post;
 import com.back.domain.post.post.service.PostService;
-import org.springframework.transaction.annotation.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@AllArgsConstructor
 @RequiredArgsConstructor
 @Configuration
 public class BaseInData {
@@ -28,14 +26,10 @@ public class BaseInData {
     @Bean
     ApplicationRunner baseInitDataApplicationRunner() {
         return args -> {
-            work1();
-            work2();
-
-            callCount++;
 
             self.work1();
             self.work2();
-            self.work3();
+            new Thread(() -> self.work3()).start();
         };
     }
 
