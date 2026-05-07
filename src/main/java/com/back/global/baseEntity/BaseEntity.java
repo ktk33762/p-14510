@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class) // Auditing 기능 활성화
 @Getter
 @NoArgsConstructor
-@Entity
 public class BaseEntity {
     @Id // PK
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT
