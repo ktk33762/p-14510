@@ -1,7 +1,11 @@
 package com.back.domain.post.post.enetity;
 
+import com.back.domain.member.member.entity.Member;
 import com.back.global.baseEntity.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,8 +21,11 @@ public class Post extends BaseEntity {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String content;
+    @ManyToOne
+    private Member author;
 
-    public Post(String title, String content) {
+    public Post(Member author, String title, String content) {
+        this.author = author;
         this.title = title;
         this.content = content;
     }

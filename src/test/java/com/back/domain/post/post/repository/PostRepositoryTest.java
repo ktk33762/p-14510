@@ -1,5 +1,7 @@
 package com.back.domain.post.post.repository;
 
+import com.back.domain.member.member.entity.Member;
+import com.back.domain.member.member.repository.MemberRepository;
 import com.back.domain.post.post.Repository.PostRepository;
 import com.back.domain.post.post.enetity.Post;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +22,9 @@ public class PostRepositoryTest {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
     @Test
     @DisplayName("2번 글 조회")
     void t1 () {
@@ -34,7 +39,9 @@ public class PostRepositoryTest {
     @Transactional
     @Rollback
     void v2() {
-        Post post = new Post("새 제목", "새 내용");
+        Member memberUser1 = memberRepository.findById(1L).get();
+
+        Post post = new Post(memberUser1, "새 제목", "새 내용");
         assertThat(post.getId()).isEqualTo(0);
 
         postRepository.save(post);
